@@ -1,4 +1,5 @@
 const domTranslator = (() => {
+    
     const container = document.querySelector('.container');
     const printBoard = () => {
         for (let i = 1; i <= 3; i++)
@@ -15,12 +16,32 @@ const domTranslator = (() => {
 })();
 
 const gameController = (() => {
+    function makeNameInput() {
+        const nameInput = document.querySelector('.name-btn');
+        
+        nameInput.addEventListener('click', players.changeNames)
+    }
+    function announceWinner(player) {
+        const message = document.querySelector('.winner');
+        message.textContent = `${player.name} wins!`;
+    }
+    function announceTurn(player) {
+        const turn = document.querySelector('.turn');
+        if (!player) {
+            turn.textContent = '';
+            return;
+        }
+        turn.textContent = `${player.name}'s turn`;
+    }
+
     function makeResetBtn() {
         const resetBtn = document.querySelector('.reset');
         resetBtn.addEventListener('click', resetGame);
     }
     function resetGame() {
-        container = document.querySelector('.container');
+        let container = document.querySelector('.container');
+        let winner = document.querySelector('.winner');
+        winner.replaceChildren();
         container.replaceChildren();
         domTranslator.printBoard();
         makeButtons();    
@@ -81,14 +102,18 @@ const gameController = (() => {
         if (cell.textContent) {
             return;
         }
-        console.log(cell);
         if (players.currentPlayer) {
             cell.classList.add('fade');
             cell.textContent = 'O';
             if (checkWin(cellRow, cellColumn)) {
                 console.log('Game over!');
                 undoButtons();
+                announceWinner(players.player2);
+                announceTurn();
+                return;
             }
+            announceTurn(players.player1);
+
             players.currentPlayer = 0;
 
         }
@@ -98,11 +123,16 @@ const gameController = (() => {
             if (checkWin(cellRow, cellColumn)) {
                 console.log('Game over!');
                 undoButtons();
+                announceWinner(players.player1);
+                announceTurn();
+                return;
             }
+            announceTurn(players.player2);
+
             players.currentPlayer = 1;
         }
     }
-    return {addMarker, makeButtons, makeResetBtn};
+    return {addMarker, makeButtons, makeResetBtn, makeNameInput, announceTurn};
 })();
 
 const players = (()=>{
@@ -111,15 +141,42 @@ const players = (()=>{
             wave: () => console.log(`${name} waved`)
         }
     }
+    function nameSetter({name, marker}) {
+        return {
+            setName: (newName) => {
+                return {
+                    name: newName,
+                    marker
+                }
+            }
+        }
+    }
+    // desired outcome: player1.setName('Johnny');
+
+    
+    
     const playerCreator = (name, marker) => {
         let player = {name, marker};
-        player = Object.assign(player, waver(player));
+        player = Object.assign(player, waver(player), nameSetter(player));
         return player;
     }
     let currentPlayer;
     const player1 = playerCreator('Player 1', 'X');
-    const player2 = playerCreator('Player 2', 'X');
-    return {currentPlayer, player1, player2};
+    const player2 = playerCreator('Player 2', 'O');
+
+    function changeNames(event) {
+        event.preventDefault();
+        let player1name = document.querySelector('.player-1-name').value;
+        let player2name = document.querySelector('.player-2-name').value;
+        if (player1name) players.player1 = players.player1.setName(player1name);
+        if (player2name) players.player2 = players.player2.setName(player2name);
+        document.querySelector('.player-1-name').value = '';
+        document.querySelector('.player-2-name').value = '';
+        gameController.announceTurn(players.player1);
+
+    }
+
+    return {currentPlayer, player1, player2, changeNames};
 })();
 
 
@@ -127,6 +184,7 @@ const codeRunner = (() => {
     domTranslator.printBoard();    
     gameController.makeButtons();
     gameController.makeResetBtn();
+    gameController.makeNameInput();
 
     
     

@@ -4,12 +4,19 @@
     padding: 0;
 }
 
+@font-face {
+    font-family: pixel;
+    src: url(../static/PublicPixel-z84yD.ttf);
+  }
+
+
 body {
     display: flex;
     flex-direction: column;
     font-family: 'Roboto';
     font-size: 3rem;
     font-weight: bold;
+    gap: 16px;
 
 
 }
@@ -39,9 +46,6 @@ body {
     text-shadow: none;
     transition: 0.5s;
 
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
 }
 
 .fade {
@@ -49,22 +53,64 @@ body {
     text-shadow: 0px 0px 5px white;
 }
 
-.reset {
+.reset, .name-btn {
     align-self: center;
     padding: 2rem 3rem;
     cursor: pointer;
-    font-family: inherit;
-    font-size: inherit;
+    font-family: pixel;
+    font-size: 2rem;
     font-weight: inherit;
     background-color: rgb(231, 231, 231);
     border-radius: 20px;
     box-shadow: 3px 3px 2px black;
     transition: 0.09s;
     border: none;
+    
 }
 
-.reset:active {
+.name-btn {
+    font-size: 1rem;
+    padding: 1rem 2rem;
+
+}
+
+.cell, .reset {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.reset:active, .name-btn:active {
 
     box-shadow: 1px 1px 2px black;
 
+}
+
+input {
+    border-radius: 10px;
+    padding: 8px 16px;
+    outline: none;
+    border: 1px solid black;
+}
+
+form {
+    display: inherit;
+    flex-direction: inherit;
+    justify-content: inherit;
+    gap: inherit;
+    align-items: center;
+}
+
+.winner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: pixel;
+}
+
+.turn {
+    align-self: center;
+    font-family: pixel;
+    font-size: 1rem;
 }
