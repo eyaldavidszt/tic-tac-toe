@@ -41,9 +41,13 @@ const gameController = (() => {
     function resetGame() {
         let container = document.querySelector('.container');
         let winner = document.querySelector('.winner');
+        let turn = document.querySelector('.turn');
+
         winner.replaceChildren();
+        turn.textContent = `${players.player1.name}'s turn`;
         container.replaceChildren();
         domTranslator.printBoard();
+        players.currentPlayer = 0;
         makeButtons();    
     }
     function makeButtons() {
@@ -124,6 +128,7 @@ const gameController = (() => {
             }
             if (checkDraw()) {
                 announceTurn();
+                document.querySelector('.winner').textContent = 'Draw!';
                 return;
             }
             announceTurn(players.player1);
