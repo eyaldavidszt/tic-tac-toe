@@ -91,6 +91,7 @@ input {
     padding: 8px 16px;
     outline: none;
     border: 1px solid black;
+    font-family: pixel;
 }
 
 form {
