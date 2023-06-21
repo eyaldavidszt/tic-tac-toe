@@ -7,6 +7,10 @@
 body {
     display: flex;
     flex-direction: column;
+    font-family: 'Roboto';
+    font-size: 3rem;
+    font-weight: bold;
+
 
 }
 .container {
@@ -19,14 +23,48 @@ body {
 }
 
 .cell {
-    background-color: pink;
+    background-color: black;
     border-radius: 10px;
-    border: 1px solid black;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.45);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Roboto';
-    font-size: 2rem;
-    font-weight: bold;
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+
+    color: rgba(255, 255, 255, 0);
+    text-shadow: none;
+    transition: 0.5s;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.fade {
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0px 0px 5px white;
+}
+
+.reset {
+    align-self: center;
+    padding: 2rem 3rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    background-color: rgb(231, 231, 231);
+    border-radius: 20px;
+    box-shadow: 3px 3px 2px black;
+    transition: 0.09s;
+    border: none;
+}
+
+.reset:active {
+
+    box-shadow: 1px 1px 2px black;
+
 }

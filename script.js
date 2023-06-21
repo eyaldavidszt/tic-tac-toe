@@ -1,16 +1,3 @@
-const gameBoard = (() => {
-        const board = [];
-        for (let i = 0; i < 3; i++)
-        {
-            board[i] = [];
-            for (let j = 0; j < 3; j++)
-            {
-                board[i].push(0);
-            }
-        }
-        return board;
-})();
-
 const domTranslator = (() => {
     const container = document.querySelector('.container');
     const printBoard = () => {
@@ -28,11 +15,23 @@ const domTranslator = (() => {
 })();
 
 const gameController = (() => {
+    function makeResetBtn() {
+        const resetBtn = document.querySelector('.reset');
+        resetBtn.addEventListener('click', resetGame);
+    }
+    function resetGame() {
+        container = document.querySelector('.container');
+        container.replaceChildren();
+        domTranslator.printBoard();
+        makeButtons();    
+    }
     function makeButtons() {
         let cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
             cell.addEventListener('click', gameController.addMarker);
         });
+
+
     }
     function undoButtons() {
         let cells = document.querySelectorAll('.cell');
@@ -84,6 +83,7 @@ const gameController = (() => {
         }
         console.log(cell);
         if (players.currentPlayer) {
+            cell.classList.add('fade');
             cell.textContent = 'O';
             if (checkWin(cellRow, cellColumn)) {
                 console.log('Game over!');
@@ -94,6 +94,7 @@ const gameController = (() => {
         }
         else {
             cell.textContent = 'X';
+            cell.classList.add('fade');
             if (checkWin(cellRow, cellColumn)) {
                 console.log('Game over!');
                 undoButtons();
@@ -101,7 +102,7 @@ const gameController = (() => {
             players.currentPlayer = 1;
         }
     }
-    return {addMarker, makeButtons};
+    return {addMarker, makeButtons, makeResetBtn};
 })();
 
 const players = (()=>{
@@ -125,6 +126,8 @@ const players = (()=>{
 const codeRunner = (() => {
     domTranslator.printBoard();    
     gameController.makeButtons();
+    gameController.makeResetBtn();
+
     
     
 })();
