@@ -192,8 +192,8 @@ const players = (()=>{
         event.preventDefault();
         let player1name = document.querySelector('.player-1-name').value;
         let player2name = document.querySelector('.player-2-name').value;
-        if (player1name) players.player1 = players.player1.setName(player1name);
-        if (player2name) players.player2 = players.player2.setName(player2name);
+        if (player1name) players.player1.name = players.player1.setName(player1name).name;
+        if (player2name) players.player2.name = players.player2.setName(player2name).name;
         document.querySelector('.player-1-name').value = '';
         document.querySelector('.player-2-name').value = '';
         gameController.announceTurn(players.player1);
