@@ -60,6 +60,16 @@ const gameController = (() => {
             cell.removeEventListener('click', gameController.addMarker);
         });
     }
+    function checkDraw() {
+        const cells = document.querySelectorAll('.cell');
+        let count = 0;
+        cells.forEach(cell=>{
+            if (cell.textContent) count++;
+        });
+        if (count == 9) return true;
+        else return false;
+        
+    }
     function checkWin(row, column) {
         const checkedRow = document.querySelectorAll(`.row-${row}`);
         const checkedColumn = document.querySelectorAll(`.column-${column}`);
@@ -112,6 +122,10 @@ const gameController = (() => {
                 announceTurn();
                 return;
             }
+            if (checkDraw()) {
+                announceTurn();
+                return;
+            }
             announceTurn(players.player1);
 
             players.currentPlayer = 0;
@@ -125,6 +139,11 @@ const gameController = (() => {
                 undoButtons();
                 announceWinner(players.player1);
                 announceTurn();
+                return;
+            }
+            if (checkDraw()) {
+                announceTurn();
+                document.querySelector('.winner').textContent = 'Draw!';
                 return;
             }
             announceTurn(players.player2);
