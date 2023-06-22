@@ -96,22 +96,21 @@ input {
     padding: 8px 16px;
     outline: none;
     border: 2px solid black;
-
     font-family: pixel;
 }
 
 form {
     display: inherit;
     flex-direction: row;
-    justify-content: center;
-    gap: inherit;
-    align-items: center;
+    gap: 0px;
     align-self: center;
+    max-width: 100%;
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 50%;
+    max-width: 65%;
 }
 .winner {
     display: flex;
