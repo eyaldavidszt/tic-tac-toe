@@ -21,6 +21,7 @@ body {
 
 
 }
+
 .container {
     font-family: 'Roboto', sans-serif;
     display: grid;
@@ -137,5 +138,6 @@ select {
     outline: none;
     align-self: center;
     font-family: inherit;
+    color: black;
 
 }
