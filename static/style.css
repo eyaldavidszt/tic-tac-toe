@@ -71,7 +71,7 @@ body {
 
 .name-btn {
     font-size: 1rem;
-    padding: 0.5rem 1rem;
+    padding: 1.5rem 1rem;
 
 }
 
@@ -105,12 +105,16 @@ form {
     gap: 0px;
     align-self: center;
     max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
 }
 
 .wrapper {
     display: flex;
     flex-direction: column;
     max-width: 65%;
+    gap: 4px;
 }
 .winner {
     display: flex;
