@@ -13,7 +13,7 @@
 body {
     display: flex;
     flex-direction: column;
-    font-family: 'Roboto';
+    font-family: pixel;
     font-size: 3rem;
     font-weight: bold;
     gap: 16px;
@@ -22,6 +22,7 @@ body {
 
 }
 .container {
+    font-family: 'Roboto';
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
@@ -58,7 +59,7 @@ body {
     align-self: center;
     padding: 1rem 2rem;
     cursor: pointer;
-    font-family: pixel;
+    font-family: inherit;
     font-size: 1.5rem;
     font-weight: inherit;
     background-color: rgb(231, 231, 231);
@@ -96,7 +97,7 @@ input {
     padding: 8px 16px;
     outline: none;
     border: 2px solid black;
-    font-family: pixel;
+    font-family: inherit;
 }
 
 form {
@@ -114,18 +115,27 @@ form {
     display: flex;
     flex-direction: column;
     max-width: 65%;
-    gap: 4px;
+    gap: 8px;
 }
 .winner {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: pixel;
+    font-family: inherit;
 }
 
 .turn {
     align-self: center;
-    font-family: pixel;
+    font-family: inherit;
     font-size: 1rem;
+}
+
+select {
+    border: 2px solid black;
+    padding: 8px 16px;
+    outline: none;
+    align-self: center;
+    font-family: inherit;
+
 }
