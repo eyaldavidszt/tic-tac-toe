@@ -17,6 +17,7 @@ body {
     font-size: 3rem;
     font-weight: bold;
     gap: 16px;
+    padding: 16px;
 
 
 }
@@ -55,10 +56,10 @@ body {
 
 .reset, .name-btn {
     align-self: center;
-    padding: 2rem 3rem;
+    padding: 1rem 2rem;
     cursor: pointer;
     font-family: pixel;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: inherit;
     background-color: rgb(231, 231, 231);
     border-radius: 20px;

@@ -132,7 +132,6 @@ const gameController = (() => {
                 return;
             }
             announceTurn(players.player1);
-
             players.currentPlayer = 0;
 
         }
@@ -155,6 +154,9 @@ const gameController = (() => {
 
             players.currentPlayer = 1;
         }
+        //add bot move if option is selected
+        //if easy selected in dropdown (whatever)
+        //function addBotMove->>>>gets all cells without text content, fills up random one with APPROPRIATE marker??
     }
     return {addMarker, makeButtons, makeResetBtn, makeNameInput, announceTurn};
 })();
@@ -210,7 +212,5 @@ const codeRunner = (() => {
     gameController.makeResetBtn();
     gameController.makeNameInput();
 
-    
-    
 })();
 
