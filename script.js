@@ -17,9 +17,13 @@ const domTranslator = (() => {
 
 const gameController = (() => {
     function makeModeBtn() {
+        const modeSelector = document.querySelector('select');
+        modeSelector.addEventListener('change', changeMode);
 
     }
     function changeMode() {
+        const mode = this.value;
+
         let container = document.querySelector('.container');
         let winner = document.querySelector('.winner');
         let turn = document.querySelector('.turn');
@@ -30,7 +34,8 @@ const gameController = (() => {
         domTranslator.printBoard();
         players.currentPlayer = 0;
         //remake buttons with argument
-        makeButtons();    
+        undoButtons();
+        makeButtons(mode);    
     }
     function makeNameInput() {
         const nameInput = document.querySelector('.name-btn');
@@ -58,26 +63,117 @@ const gameController = (() => {
         let container = document.querySelector('.container');
         let winner = document.querySelector('.winner');
         let turn = document.querySelector('.turn');
+        let currentMode = document.querySelector('select').value;
 
         winner.replaceChildren();
         turn.textContent = `${players.player1.name}'s turn`;
         container.replaceChildren();
         domTranslator.printBoard();
         players.currentPlayer = 0;
-        makeButtons();    
+        makeButtons(currentMode);    
     }
-    function makeButtons() {
+    function makeButtons(mode) {
         let cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
-            cell.addEventListener('click', gameController.addMarker);
+            cell.addEventListener('click', addMarker);
         });
 
 
     }
+    function addMarker(event) {
+        const cell = event.target;
+        let cellRow = cell.classList[0].split('');
+        let cellColumn = cell.classList[1].split('');
+        cellRow = cellRow[cellRow.length - 1];
+        cellColumn = cellColumn[cellColumn.length - 1];
+        if (cell.textContent) {
+            return;
+        }
+        if (players.currentPlayer) {
+            cell.classList.add('fade');
+            cell.textContent = 'O';
+            if (checkWin(cellRow, cellColumn)) {
+                console.log('Game over!');
+                undoButtons();
+                announceWinner(players.player2);
+                announceTurn();
+                return;
+            }
+            if (checkDraw()) {
+                announceTurn();
+                document.querySelector('.winner').textContent = 'Draw!';
+                return;
+            }
+            announceTurn(players.player1);
+            // i designed my code so that currentPlayer always starts at 0/undefined, 
+            // can make player select currentPlayer before window loads or something
+            players.currentPlayer = 0;
+
+        }
+        else {
+            cell.textContent = 'X';
+            cell.classList.add('fade');
+            if (checkWin(cellRow, cellColumn)) {
+                console.log('Game over!');
+                undoButtons();
+                announceWinner(players.player1);
+                announceTurn();
+                return;
+            }
+            if (checkDraw()) {
+                announceTurn();
+                document.querySelector('.winner').textContent = 'Draw!';
+                return;
+            }
+            announceTurn(players.player2);
+
+            players.currentPlayer = 1;
+        }
+        // instead of console.log, we actually use mode now to change the actions of this function!
+        if (mode.value == 'easy') {
+            //of all cells, randomly pick one that is empty. 
+            let newCells = document.querySelectorAll('.cell:not(.fade)');
+            let random = Math.floor(Math.random() * newCells.length);
+            let count = 0;
+            console.log(newCells);
+            newCells.forEach(randCell => {
+                if (count == random && newCells.length > 1) {
+                    console.log('We match!', {random, count});
+                    randCell.textContent = 'O';
+                    randCell.classList.add('fade');
+                    let randCellRow = randCell.classList[0].split('');
+                    let randCellColumn = randCell.classList[1].split('');
+                    randCellRow = randCellRow[randCellRow.length - 1];
+                    randCellColumn = randCellColumn[randCellColumn.length - 1];
+                    count++;
+                    
+                    if (checkWin(randCellRow, randCellColumn)) {
+                        console.log('Game over!');
+                        undoButtons();
+                        announceWinner(players.player2);
+                        announceTurn();
+                        return;
+                    }
+                    if (checkDraw()) {
+                        announceTurn();
+                        document.querySelector('.winner').textContent = 'Draw!';
+                        return;
+                    }
+                    announceTurn(players.player1);
+                    players.currentPlayer = 0;
+                }
+                else {
+                    count++;
+                }
+            });
+            
+        }
+        //
+    }
     function undoButtons() {
         let cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
-            cell.removeEventListener('click', gameController.addMarker);
+            cell.removeEventListener('click', addMarker);
         });
     }
     function checkDraw() {
@@ -123,58 +219,7 @@ const gameController = (() => {
         }
         return false;
     }
-    function addMarker(event) {
-        const cell = event.target;
-        let cellRow = cell.classList[0].split('');
-        let cellColumn = cell.classList[1].split('');
-        cellRow = cellRow[cellRow.length - 1];
-        cellColumn = cellColumn[cellColumn.length - 1];
-        if (cell.textContent) {
-            return;
-        }
-        if (players.currentPlayer) {
-            cell.classList.add('fade');
-            cell.textContent = 'O';
-            if (checkWin(cellRow, cellColumn)) {
-                console.log('Game over!');
-                undoButtons();
-                announceWinner(players.player2);
-                announceTurn();
-                return;
-            }
-            if (checkDraw()) {
-                announceTurn();
-                document.querySelector('.winner').textContent = 'Draw!';
-                return;
-            }
-            announceTurn(players.player1);
-            players.currentPlayer = 0;
-
-        }
-        else {
-            cell.textContent = 'X';
-            cell.classList.add('fade');
-            if (checkWin(cellRow, cellColumn)) {
-                console.log('Game over!');
-                undoButtons();
-                announceWinner(players.player1);
-                announceTurn();
-                return;
-            }
-            if (checkDraw()) {
-                announceTurn();
-                document.querySelector('.winner').textContent = 'Draw!';
-                return;
-            }
-            announceTurn(players.player2);
-
-            players.currentPlayer = 1;
-        }
-        //add bot move if option is selected
-        //if easy selected in dropdown (whatever)
-        //function addBotMove->>>>gets all cells without text content, fills up random one with APPROPRIATE marker??
-    }
-    return {addMarker, makeButtons, makeResetBtn, makeNameInput, announceTurn};
+    return {makeModeBtn, makeButtons, makeResetBtn, makeNameInput, announceTurn};
 })();
 
 const players = (()=>{
@@ -224,9 +269,10 @@ const players = (()=>{
 
 const codeRunner = (() => {
     domTranslator.printBoard();    
-    gameController.makeButtons();
+    gameController.makeButtons('human');
     gameController.makeResetBtn();
     gameController.makeNameInput();
+    gameController.makeModeBtn();
 
     //querySelector <select>
     //on change of <select>, reset the game. and make mode=easy.
