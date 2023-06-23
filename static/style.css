@@ -142,3 +142,10 @@ select {
     color: black;
 
 }
+
+
+.glow {
+    color: red;
+    text-shadow: 0px 0px 10px red;
+    transition: 1s;
+}

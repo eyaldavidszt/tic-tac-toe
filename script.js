@@ -191,10 +191,17 @@ const gameController = (() => {
         const checkedColumn = document.querySelectorAll(`.column-${column}`);
         if ((checkedRow[0].textContent == checkedRow[1].textContent) && 
             (checkedRow[0].textContent == checkedRow[2].textContent)) {
+            checkedRow[0].classList.add('glow');
+            checkedRow[1].classList.add('glow');
+            checkedRow[2].classList.add('glow');
             return true;
         }
         if ((checkedColumn[0].textContent == checkedColumn[1].textContent) && 
             (checkedColumn[0].textContent == checkedColumn[2].textContent)) {
+            checkedColumn[0].classList.add('glow');
+            checkedColumn[1].classList.add('glow');
+            checkedColumn[2].classList.add('glow');
+
             return true;
         }
         const firstDiagonal = [];
@@ -211,11 +218,23 @@ const gameController = (() => {
         }
         if ((firstDiagonal[0].textContent == firstDiagonal[1].textContent) && 
         (firstDiagonal[0].textContent == firstDiagonal[2].textContent)) {
-            if (firstDiagonal[0].textContent) return true;
+            if (firstDiagonal[0].textContent) {
+                firstDiagonal[0].classList.add('glow');
+                firstDiagonal[1].classList.add('glow');
+                firstDiagonal[2].classList.add('glow');
+
+                return true;
+            }
         }
         if ((secondDiagonal[0].textContent == secondDiagonal[1].textContent) && 
         (secondDiagonal[0].textContent == secondDiagonal[2].textContent)) {
-            if (secondDiagonal[0].textContent) return true;
+            if (secondDiagonal[0].textContent) {
+                secondDiagonal[0].classList.add('glow');
+                secondDiagonal[1].classList.add('glow');
+                secondDiagonal[2].classList.add('glow');
+
+                return true;
+            }
         }
         return false;
     }
