@@ -16,6 +16,22 @@ const domTranslator = (() => {
 })();
 
 const gameController = (() => {
+    function makeModeBtn() {
+
+    }
+    function changeMode() {
+        let container = document.querySelector('.container');
+        let winner = document.querySelector('.winner');
+        let turn = document.querySelector('.turn');
+        
+        winner.replaceChildren();
+        turn.textContent = `${players.player1.name}'s turn`;
+        container.replaceChildren();
+        domTranslator.printBoard();
+        players.currentPlayer = 0;
+        //remake buttons with argument
+        makeButtons();    
+    }
     function makeNameInput() {
         const nameInput = document.querySelector('.name-btn');
         
@@ -211,6 +227,10 @@ const codeRunner = (() => {
     gameController.makeButtons();
     gameController.makeResetBtn();
     gameController.makeNameInput();
+
+    //querySelector <select>
+    //on change of <select>, reset the game. and make mode=easy.
+    //this means that on pageLoad it needs to be mode=human...
 
 })();
 
