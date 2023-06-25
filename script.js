@@ -170,13 +170,13 @@ const gameController = (() => {
             let allCells = document.querySelectorAll('.cell');
             let myArray = Array.from(allCells);
             minimax(myArray, players.currentPlayer, 0);
+            let bestMoveRow = bestMove.classList[0].split('');
+            bestMoveRow = bestMoveRow[bestMoveRow.length - 1];
+            let bestMoveColumn = bestMove.classList[1].split('');
+            bestMoveColumn = bestMoveColumn[bestMoveColumn.length - 1];
             for (let i = 0; i < myArray.length; i++)
             {
                    
-                let bestMoveRow = bestMove.classList[0].split('');
-                bestMoveRow = bestMoveRow[bestMoveRow.length - 1];
-                let bestMoveColumn = bestMove.classList[1].split('');
-                bestMoveColumn = bestMoveColumn[bestMoveColumn.length - 1];
 
                 let indexRow = myArray[i].classList[0].split('');
                 indexRow = indexRow[indexRow.length - 1];
