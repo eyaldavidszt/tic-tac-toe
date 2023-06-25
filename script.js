@@ -186,7 +186,7 @@ const gameController = (() => {
                 {
                     myArray[i].textContent = bestMove.textContent;
                     myArray[i].classList.add('fade');
-                    if (minimaxCheckwin(myArray)) {
+                    if (checkWin(indexRow, indexColumn)) {
                         undoButtons();
                         announceWinner(players.player2);
                         announceTurn();
