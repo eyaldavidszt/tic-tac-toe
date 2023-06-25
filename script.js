@@ -135,10 +135,8 @@ const gameController = (() => {
             let newCells = document.querySelectorAll('.cell:not(.fade)');
             let random = Math.floor(Math.random() * newCells.length);
             let count = 0;
-            console.log(newCells);
             newCells.forEach(randCell => {
                 if (count == random && newCells.length > 1) {
-                    console.log('We match!', {random, count});
                     randCell.textContent = 'O';
                     randCell.classList.add('fade');
                     let randCellRow = randCell.classList[0].split('');
@@ -172,7 +170,6 @@ const gameController = (() => {
             let allCells = document.querySelectorAll('.cell');
             let myArray = Array.from(allCells);
             minimax(myArray, players.currentPlayer, 0);
-            console.log(bestMove);
             for (let i = 0; i < myArray.length; i++)
             {
                    
