@@ -67,7 +67,7 @@ body {
     border-radius: 20px;
     box-shadow: 3px 3px 2px black;
     transition: 0.09s;
-    border: none;
+    border: 1px solid black;
     
 }
 

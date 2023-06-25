@@ -166,9 +166,181 @@ const gameController = (() => {
                     count++;
                 }
             });
-            
         }
-        //
+        if (mode.value == 'hard') {
+            //
+            let allCells = document.querySelectorAll('.cell');
+            let myArray = Array.from(allCells);
+            minimax(myArray, players.currentPlayer, 0);
+            console.log(bestMove);
+            for (let i = 0; i < myArray.length; i++)
+            {
+                   
+                let bestMoveRow = bestMove.classList[0].split('');
+                bestMoveRow = bestMoveRow[bestMoveRow.length - 1];
+                let bestMoveColumn = bestMove.classList[1].split('');
+                bestMoveColumn = bestMoveColumn[bestMoveColumn.length - 1];
+
+                let indexRow = myArray[i].classList[0].split('');
+                indexRow = indexRow[indexRow.length - 1];
+                let indexColumn = myArray[i].classList[1].split('');
+                indexColumn = indexColumn[indexColumn.length - 1];
+                if ((bestMoveRow == indexRow) && (bestMoveColumn == indexColumn))
+                {
+                    myArray[i].textContent = bestMove.textContent;
+                    myArray[i].classList.add('fade');
+                    if (minimaxCheckwin(myArray)) {
+                        undoButtons();
+                        announceWinner(players.player2);
+                        announceTurn();
+                        return;
+                    }
+                    if (checkDraw()) {
+                        announceTurn();
+                        document.querySelector('.winner').textContent = 'Draw!';
+                        return;
+                    }
+                    announceTurn(players.player1);
+                    players.currentPlayer = 0;
+                }
+            }
+        }
+    }
+    let bestMove;
+    function minimax(myArray, player, depth) {
+        // let temp = [];
+        // for (let j = 0; j < myArray.length; j++)
+        // {
+        //     temp[j] = myArray[j].cloneNode();
+        //     temp[j].textContent = myArray[j].textContent;
+        // }
+        if (minimaxCheckwin(myArray, player)) {
+            if (player == 0) {
+                return 10 - depth;
+            }
+            else return -10 + depth;
+        }
+        if (minimaxCheckdraw(myArray)) {
+            return 0;
+        }
+        let emptyCells = myArray.filter(item => item.textContent == '');
+        depth += 1;
+        let scores = [];
+        let moves = [];
+        let emptyCellLen = emptyCells.length;
+        for (let i = 0; i < emptyCellLen; i++)
+        {
+                //fill up with random move
+                let newMove;
+                if (player == 0) {
+                    newMove = emptyCells[i];
+                    newMove.textContent = `${players.player1.marker}`;
+                    players.currentPlayer = 1;
+                }
+                else {
+                    newMove = emptyCells[i];
+                    newMove.textContent = `${players.player2.marker}`;
+                    players.currentPlayer = 0;
+                }
+                value = minimax(myArray, players.currentPlayer, depth);
+                //minimax always returns -5?!?!?!?!
+                let newMovePush = newMove.cloneNode();
+                newMovePush.textContent = newMove.textContent;
+                scores.push(value);
+                moves.push(newMovePush);
+                emptyCells[i].textContent = '';
+        }
+        if (player === 0) {
+
+            let min = 100;
+            let minIndex;
+            for (let i = 0; i < scores.length; i++)
+            {
+                if (scores[i] < min) {
+                    min = scores[i];
+                    minIndex = i;
+                }
+            }
+            bestMove = moves[minIndex];
+            return scores[minIndex];
+
+        }
+        else {
+                let max = -100;
+                let maxIndex;
+                for (let i = 0; i < scores.length; i++)
+                {
+                    if (scores[i] > max) {
+                        max = scores[i];
+                        maxIndex = i;
+                    }
+                }
+                bestMove = moves[maxIndex];
+                return scores[maxIndex];
+        }
+    }
+
+    function minimaxCheckwin(array) {
+
+        // if 0 = 1 = 2 win
+        if ((array[0].textContent == array[1].textContent) && (array[1].textContent == array[2].textContent)) {
+            if (array[0].textContent != '')
+            return true; 
+        } 
+
+        // if 3 = 4 = 5 win
+        if ((array[3].textContent == array[4].textContent) && (array[4].textContent == array[5].textContent)) {
+            if (array[3].textContent != '')
+            return true; 
+        }
+
+        // if 6 = 7 = 8 win
+        if ((array[6].textContent == array[7].textContent) && (array[7].textContent == array[8].textContent)) {
+            if (array[6].textContent != '')
+            return true; 
+        } 
+
+        // if 0 = 3 = 6 win
+        if ((array[0].textContent == array[3].textContent) && (array[3].textContent == array[6].textContent)) {
+            if (array[0].textContent != '')
+            return true; 
+        }
+        // if 1 = 4 = 7 win 
+        if ((array[1].textContent == array[4].textContent) && (array[4].textContent == array[7].textContent)) {
+            if (array[1].textContent != '')
+            return true; 
+        }
+
+        // if 2 = 5 = 8 win
+        if ((array[2].textContent == array[5].textContent) && (array[5].textContent == array[8].textContent)) {
+            if (array[2].textContent != '')
+            return true; 
+        }
+
+        // if 0 = 4 = 8 win
+        if ((array[0].textContent == array[4].textContent) && (array[4].textContent == array[8].textContent)) {
+            if (array[0].textContent != '')
+            return true; 
+        } 
+
+        // if 2 = 4 = 6 win
+        if ((array[2].textContent == array[4].textContent) && (array[4].textContent == array[6].textContent)) {
+            if (array[2].textContent != '')
+            return true; 
+        } 
+
+        return false;
+
+    }
+    function minimaxCheckdraw(array) {
+        if (array[0].textContent && array[1].textContent && array[2].textContent && array[3].textContent && array[4].textContent
+            && array[5].textContent && array[6].textContent && array[7].textContent 
+            && array[8].textContent) {
+                if (array[0].textContent != '') {
+                    return true;
+                }
+            }
+            return false;
     }
     function undoButtons() {
         let cells = document.querySelectorAll('.cell');
